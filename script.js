@@ -55,11 +55,13 @@ function updateUI() {
           <p class="main__info--conditions">${
             currentWeather.currentConditions.conditions
           }</p>
-          <p class="main__info--highandlow">🔥 H: ${
-            currentWeather.days[0].tempmax
-          }°${selectedUnit} ❄️ L: ${
-    currentWeather.days[0].tempmin
-  }°${selectedUnit}</p>
+          <p class="main__info--highandlow">🔥 H: ${convertTemp(
+            currentWeather.days[0].tempmax,
+            selectedUnit
+          )}°${selectedUnit} ❄️ L: ${convertTemp(
+    currentWeather.days[0].tempmin,
+    selectedUnit
+  )}°${selectedUnit}</p>
           <p class="main__info--rain">☔️ Chance of Rain: ${
             currentWeather.currentConditions.precipprob
           }%</p>
@@ -117,9 +119,13 @@ function updateUI() {
                 .split(" ")
                 .slice(0, 2)
                 .join(" ")}</p>
-              <p class="forecast__item--highlow">H: ${
-                day.tempmax
-              }${selectedUnit} L: ${day.tempmin}°${selectedUnit}</p>
+              <p class="forecast__item--highlow">H: ${convertTemp(
+                day.tempmax,
+                selectedUnit
+              )}°${selectedUnit} L: ${convertTemp(
+      day.tempmin,
+      selectedUnit
+    )}°${selectedUnit}</p>
             </div> 
 `;
     mainForecastCardContainer.insertAdjacentHTML("beforeend", forecastCard);
