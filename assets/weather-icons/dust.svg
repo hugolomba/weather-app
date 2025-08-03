@@ -14,17 +14,15 @@
     </filter>
   </defs>
   <g transform="translate(16 -2)" filter="url(#blur)">
-    <g class="am-weather-wind" transform="translate(-16,10)" fill="none" stroke="#57A0EE" stroke-linecap="round"
+    <g class="am-weather-wind" transform="translate(-16,10)" fill="none" stroke="#cd9e73" stroke-linecap="round"
       stroke-width="2">
       <path stroke-dasharray="150 10" d="M25.5 5A4 4 0 1 1 29 11H10">
         <animate attributeName="stroke-dashoffset" dur="3s" repeatCount="indefinite" values="0; 160" begin="0s" />
       </path>
-      <path stroke-dasharray="144 16"
-        d="M39.5 11A4 4 0 1 1 43 17H6">
+      <path stroke-dasharray="144 16" d="M39.5 11A4 4 0 1 1 43 17H6">
         <animate attributeName="stroke-dashoffset" dur="3s" repeatCount="indefinite" values="0; 160" begin="0.5s" />
       </path>
-      <path stroke-dasharray="150 10"
-        d="M28.5 29A4 4 0 1 0 32 23H15">
+      <path stroke-dasharray="150 10" d="M28.5 29A4 4 0 1 0 32 23H15">
         <animate attributeName="stroke-dashoffset" dur="3s" repeatCount="indefinite" values="0; 160" begin="0.25s" />
       </path>
     </g>
