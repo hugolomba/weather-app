@@ -4,6 +4,8 @@ const form = document.querySelector("form");
 let weatherContainer = document.querySelector(".weather-container");
 const mainInfoContainer = document.querySelector(".main__info");
 const mainForecastContainer = document.querySelector(".main__forecast");
+const placesContainer = document.querySelector(".places__container");
+const geolocationButton = document.querySelector(".places__geolocation");
 let mainForecastCardContainer = document.querySelector(
   ".forecast__card--container"
 );
@@ -14,6 +16,8 @@ console.log(today);
 
 let searchTerm;
 let currentWeather;
+let geolocation;
+let geolocationAddress;
 
 let lat, lon;
 
@@ -133,27 +137,32 @@ function updateUI() {
 }
 
 // Get the current geolocation
-// if (navigator.geolocation) {
-//   navigator.geolocation.getCurrentPosition(
-//     async (position) => {
-//       lat = position.coords.latitude;
-//       lon = position.coords.longitude;
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
 
-//       console.log(lat, lon);
+      console.log(lat, lon);
 
-//       const res = await fetch(
-//         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
-//       );
-//       const data = await res.json();
-//       console.log(data);
-//     },
-//     (error) => {
-//       console.error("Error obtaining geolocation");
-//     }
-//   );
-// } else {
-//   console.log("Geolocation is not supported");
-// }
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+      );
+      const data = await res.json();
+      geolocation = data;
+      geolocationAddress = `${geolocation.address.suburb}, ${geolocation.address.city}, ${geolocation.address.country}`;
+      geolocationButton.innerHTML = `📍 ${geolocationAddress}`;
+      console.log(geolocation);
+    },
+    (error) => {
+      console.error("Error obtaining geolocation");
+      geolocationButton.innerHTML = `⛔️ Error obtaining geolocation`;
+      geolocationButton.classList.add("error");
+    }
+  );
+} else {
+  console.log("Geolocation is not supported");
+}
 
 // Fetch data from the API
 async function fetchData() {
@@ -163,6 +172,7 @@ async function fetchData() {
     );
     const data = await response.json();
     currentWeather = data;
+    updateUI();
   } catch (err) {
     console.error("Error:", err);
   }
@@ -180,20 +190,32 @@ form.addEventListener("submit", async function (e) {
   e.preventDefault();
   searchTerm = document.querySelector("#search").value;
   await fetchData();
-  console.log(currentWeather);
+  document.querySelector("#search").value = "";
+  document.querySelector("#search").blur();
 
-  //   let forecastCard = ` <div class="forecast__card">
-  //               <p class="forecast__item--hour">Hour 1</p>
-  //               <img
-  //                 class="forecast__item--icon"
-  //                 src="./assets/weather-icons/partly-cloudy-day.svg"
-  //                 alt="Weather Icon"
-  //               />
-  //               <p class="forecast__item--temp">22°C</p>
-  //               <p class="forecast__item--description">Partly Cloudy</p>
-  //               <p class="forecast__item--highlow">H: 22°C L: 18°C</p>
-  //             </div>
-  // `;
-
-  updateUI();
+  document
+    .querySelector(".places__geolocation")
+    .insertAdjacentHTML(
+      "afterend",
+      `<p class="places__item">${currentWeather.resolvedAddress}</p>`
+    );
 });
+
+placesContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("error")) {
+    console.log("Error: Geolocation not available");
+    return;
+  }
+  if (
+    e.target.classList.contains("places__item") ||
+    e.target.classList.contains("places__geolocation")
+  ) {
+    searchTerm = e.target.innerText;
+    fetchData();
+  }
+});
+
+// geolocationButton.addEventListener("click", () => {
+//   searchTerm = geolocationAddress;
+//   fetchData();
+// });

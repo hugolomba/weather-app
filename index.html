@@ -13,68 +13,36 @@
 
     <header>
       <h1>Weather App</h1>
-      <form>
-        <label for="search">Search the city:</label>
-        <input type="text" id="search" name="search" />
-        <button type="submit">Submit</button>
-      </form>
       <select id="unit-selector">
         <option value="C">Celsius (°C)</option>
         <option value="F">Fahrenheit (°F)</option>
       </select>
-      <div class="your-city">
+      <!-- <form>
+        <label for="search">Search the city:</label>
+        <input type="text" id="search" name="search" />
+        <button type="submit">Submit</button>
+      </form> -->
+
+      <!-- <div class="your-city">
         <span class="city-name">📍 Your City, Country</span>
-      </div>
+      </div> -->
     </header>
     <main>
       <div class="weather-container">
-        <div class="main__info">
-          <!-- <p class="main__info--city">Dublin, Ireland</p>
-          <img
-            class="main__info--icon"
-            src="./assets/weather-icons/clear-day.svg"
-            alt="Weather Icon"
-          />
-          <p class="main__info--temp">20°C</p>
+        <div class="main__info"></div>
 
-          <p class="main__info--description">Sunny</p>
-          <p class="main__info--highandlow">H: 22°C L: 18°C</p>
-          <p class="main__info--rain">Chance of Rain: 10%</p>
-          <p class="main__info--alert">Weather Alert: None</p> -->
-        </div>
-
-        <div class="main__forecast">
-          <!-- <h2>Next 7 Days</h2> -->
-          <!-- <div class="forecast__card--container"> -->
-          <!-- <div class="forecast__card">
-              <p class="forecast__item--hour">Hour 1</p>
-              <img
-                class="forecast__item--icon"
-                src="./assets/weather-icons/partly-cloudy-day.svg"
-                alt="Weather Icon"
-              />
-              <p class="forecast__item--temp">22°C</p>
-              <p class="forecast__item--description">Partly Cloudy</p>
-              <p class="forecast__item--highlow">H: 22°C L: 18°C</p>
-            </div> -->
-
-          <!-- <div class="forecast__card">
-              <p class="forecast__item--hour">Day 1</p>
-              <img
-                class="forecast__item--icon"
-                src="./assets/weather-icons/partly-cloudy-day.svg"
-                alt="Weather Icon"
-              />
-              <p class="forecast__item--temp">22°C</p>
-              <p class="forecast__item--description">Partly Cloudy</p>
-              <p class="forecast__item--highlow">H: 22°C L: 18°C</p>
-            </div> -->
-          <!-- </div> -->
-        </div>
-        <!-- <div class="main__details">
-          
-        </div> -->
+        <div class="main__forecast"></div>
       </div>
+      <aside>
+        <div class="places__container">
+          <form>
+            <!-- <label for="search">Search the city:</label> -->
+            <input type="text" id="search" name="search" />
+            <!-- <button type="submit">Submit</button> -->
+          </form>
+          <p class="places__geolocation">📍 Your City, Country</p>
+        </div>
+      </aside>
     </main>
 
     <script src="./script.js"></script>
