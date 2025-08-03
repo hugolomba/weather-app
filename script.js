@@ -41,9 +41,18 @@ function formatDate(dateString) {
 }
 
 function updateUI() {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: currentWeather.timezone,
+  };
   let weatherCard = `
-    
-    <p class="main__info--city">${currentWeather.resolvedAddress}</p>
+  <p>${new Date().toLocaleString("en-GB", options)}</p>
+    <div class="main__info--icon-container">
           <img
             class="main__info--icon"
             src="./assets/weather-icons/${
@@ -51,14 +60,19 @@ function updateUI() {
             }.svg"
             alt="Weather Icon"
           />
-          <p class="main__info--temp">${convertTemp(
-            currentWeather.currentConditions.temp,
-            selectedUnit
-          )}°${selectedUnit}</p>
+              <p class="main__info--temp">${convertTemp(
+                currentWeather.currentConditions.temp,
+                selectedUnit
+              )}<sup>°${selectedUnit}</sup></p>
+          </div>
+          <p class="main__info--city">${currentWeather.resolvedAddress}</p>
+          <div>
+      
 
           <p class="main__info--conditions">${
             currentWeather.currentConditions.conditions
           }</p>
+          </div>
           <p class="main__info--highandlow">🔥 H: ${convertTemp(
             currentWeather.days[0].tempmax,
             selectedUnit
@@ -109,7 +123,9 @@ function updateUI() {
   nextSevenDays.forEach((day, index) => {
     let forecastCard = ` 
         <div class="forecast__card">
+        
               <p class="forecast__item--hour">${formatDate(day.datetime)}</p>
+             
               <img
                 class="forecast__item--icon"
                 src="./assets/weather-icons/${day.icon}.svg"
@@ -119,17 +135,14 @@ function updateUI() {
                 day.temp,
                 selectedUnit
               )}°${selectedUnit}</p>
+
+            
               <p class="forecast__item--description">${day.description
                 .split(" ")
                 .slice(0, 2)
                 .join(" ")}</p>
-              <p class="forecast__item--highlow">H: ${convertTemp(
-                day.tempmax,
-                selectedUnit
-              )}°${selectedUnit} L: ${convertTemp(
-      day.tempmin,
-      selectedUnit
-    )}°${selectedUnit}</p>
+                
+             
             </div> 
 `;
     mainForecastCardContainer.insertAdjacentHTML("beforeend", forecastCard);
@@ -212,6 +225,7 @@ placesContainer.addEventListener("click", (e) => {
   ) {
     searchTerm = e.target.innerText;
     fetchData();
+    console.log(currentWeather);
   }
 });
 

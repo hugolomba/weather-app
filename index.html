@@ -17,32 +17,29 @@
         <option value="C">Celsius (°C)</option>
         <option value="F">Fahrenheit (°F)</option>
       </select>
-      <!-- <form>
-        <label for="search">Search the city:</label>
-        <input type="text" id="search" name="search" />
-        <button type="submit">Submit</button>
-      </form> -->
-
-      <!-- <div class="your-city">
-        <span class="city-name">📍 Your City, Country</span>
-      </div> -->
     </header>
     <main>
-      <div class="weather-container">
-        <div class="main__info"></div>
-
-        <div class="main__forecast"></div>
-      </div>
       <aside>
         <div class="places__container">
-          <form>
+          <form class="search__form">
             <!-- <label for="search">Search the city:</label> -->
-            <input type="text" id="search" name="search" />
+            <input
+              class="search__input"
+              placeholder="Search for a city..."
+              type="text"
+              id="search"
+              name="search"
+            />
             <!-- <button type="submit">Submit</button> -->
           </form>
           <p class="places__geolocation">📍 Your City, Country</p>
         </div>
       </aside>
+
+      <div class="weather-container">
+        <div class="main__info"></div>
+      </div>
+      <div class="main__forecast"></div>
     </main>
 
     <script src="./script.js"></script>
