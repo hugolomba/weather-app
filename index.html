@@ -11,15 +11,13 @@
  
     <div class="weather-container"></div> -->
 
-    <header>
-      <h1>Weather App</h1>
-      <select id="unit-selector">
-        <option value="C">Celsius (°C)</option>
-        <option value="F">Fahrenheit (°F)</option>
-      </select>
-    </header>
+
     <main>
-      <aside>
+      <h1>Weather App</h1>
+
+      <div class="main__container">
+        
+        <div class="sidebar__container">
         <div class="places__container">
           <form class="search__form">
             <!-- <label for="search">Search the city:</label> -->
@@ -32,14 +30,33 @@
             />
             <!-- <button type="submit">Submit</button> -->
           </form>
-          <p class="places__geolocation">📍 Your City, Country</p>
-        </div>
-      </aside>
 
-      <div class="weather-container">
-        <div class="main__info"></div>
+ 
+          <p class="places__geolocation">Use your location</p>
+        </div>
+      </div class="sidebar__container">
+
+      <div class="weather-container hidden">
+  <div class="toggle-wrapper hide">
+  <span>°C</span>
+  <label class="switch">
+    <input type="checkbox" id="unit-selector">
+    <span class="slider"></span>
+  </label>
+  <span>°F</span>
+</div>
+       
+      <!-- <select id="unit-selector" >
+        <option value="C">Celsius (°C)</option>
+        <option value="F">Fahrenheit (°F)</option>
+      </select> -->
+        <div class="main__info hidden"></div>
       </div>
-      <div class="main__forecast"></div>
+      <div class="main__forecast hidden"></div>
+
+      </div>
+
+      
     </main>
 
     <script src="./script.js"></script>

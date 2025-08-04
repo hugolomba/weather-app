@@ -1,16 +1,18 @@
 "use strict";
 
 const form = document.querySelector("form");
-let weatherContainer = document.querySelector(".weather-container");
+const weatherContainer = document.querySelector(".weather-container");
 const mainInfoContainer = document.querySelector(".main__info");
 const mainForecastContainer = document.querySelector(".main__forecast");
 const placesContainer = document.querySelector(".places__container");
 const geolocationButton = document.querySelector(".places__geolocation");
+const sidebarContainer = document.querySelector(".sidebar__container");
+const mainContainer = document.querySelector(".main__container");
 
 let mainForecastCardContainer = document.querySelector(
   ".forecast__card--container"
 );
-const unitSelector = document.querySelector("#unit-selector");
+let unitSelector = document.querySelector("#unit-selector");
 const today = new Date();
 
 let searchTerm;
@@ -62,6 +64,9 @@ function updateUI() {
   
   <p>${new Date().toLocaleString("en-GB", options)}</p>
     <div class="main__info--icon-container">
+
+
+
           <img
             class="main__info--icon"
             src="./assets/weather-icons/${
@@ -159,29 +164,31 @@ function updateUI() {
 }
 
 // Get the current geolocation
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      lat = position.coords.latitude;
-      lon = position.coords.longitude;
+const getGeolocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
 
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
-      );
-      const data = await res.json();
-      geolocation = data;
-      geolocationAddress = `${geolocation.address.suburb}, ${geolocation.address.city}, ${geolocation.address.country}`;
-      geolocationButton.innerHTML = `📍 ${geolocationAddress}`;
-    },
-    (error) => {
-      console.error("Error obtaining geolocation");
-      geolocationButton.innerHTML = `⛔️ Error obtaining geolocation`;
-      geolocationButton.classList.add("error");
-    }
-  );
-} else {
-  console.log("Geolocation is not supported");
-}
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+        );
+        const data = await res.json();
+        geolocation = data;
+        geolocationAddress = `${geolocation.address.suburb}, ${geolocation.address.city}, ${geolocation.address.country}`;
+        geolocationButton.innerHTML = `📍 ${geolocationAddress}`;
+      },
+      (error) => {
+        console.error("Error obtaining geolocation");
+        geolocationButton.innerHTML = `⛔️ Error obtaining geolocation`;
+        geolocationButton.classList.add("error");
+      }
+    );
+  } else {
+    console.log("Geolocation is not supported");
+  }
+};
 
 // Fetch data from the API
 async function fetchData() {
@@ -199,8 +206,31 @@ async function fetchData() {
 
 // Event handlers
 
-unitSelector.addEventListener("change", function (e) {
-  selectedUnit = e.target.value;
+// mainInfoContainer.addEventListener("click", (e) => {
+//   console.log("Clicked on main info container", e.target.id);
+//   unitSelector = document.querySelector("#unit-selector");
+//   if (e.target.id === "unit-selector") {
+//     selectedUnit = unitSelector.checked ? "F" : "C";
+
+//     console.log(unitSelector.checked);
+//     console.log(e.target.value);
+
+//     updateUI();
+//   }
+// });
+
+// mainInfoContainer.addEventListener("change", (e) => {
+//   if (e.target.matches("#unit-selector")) {
+//     selectedUnit = e.target.checked ? "F" : "C";
+//     updateUI();
+//   }
+// });
+
+unitSelector?.addEventListener("change", function (e) {
+  selectedUnit = unitSelector.checked ? "F" : "C";
+
+  console.log(unitSelector.checked);
+  console.log(e.target.value);
 
   updateUI();
 });
@@ -218,11 +248,15 @@ form.addEventListener("submit", async function (e) {
       "afterend",
       `<p class="places__item">${currentWeather.resolvedAddress}</p>`
     );
-  console.log("this", e);
 
   const allItems = document.querySelectorAll(".places__item");
   const newItem = allItems[0];
   changeSelectedClasses({ target: newItem });
+
+  weatherContainer.classList.remove("hidden");
+  mainInfoContainer.classList.remove("hidden");
+  mainForecastContainer.classList.remove("hidden");
+  sidebarContainer.classList.add("mobile--hidden");
 });
 
 placesContainer.addEventListener("click", (e) => {
@@ -230,6 +264,14 @@ placesContainer.addEventListener("click", (e) => {
     console.log("Error: Geolocation not available");
     return;
   }
+
+  if (e.target.classList.contains("places__geolocation")) {
+    if (!geolocationAddress) {
+      getGeolocation();
+      return;
+    }
+  }
+
   if (
     e.target.classList.contains("places__item") ||
     e.target.classList.contains("places__geolocation")
@@ -241,10 +283,21 @@ placesContainer.addEventListener("click", (e) => {
     console.log(e.target);
 
     fetchData();
+    weatherContainer.classList.remove("hidden");
+    mainInfoContainer.classList.remove("hidden");
+    mainForecastContainer.classList.remove("hidden");
+    sidebarContainer.classList.add("mobile--hidden");
   }
 });
 
 // geolocationButton.addEventListener("click", () => {
 //   searchTerm = geolocationAddress;
 //   fetchData();
+// });
+
+// mainContainer.addEventListener("change", (e) => {
+//   if (e.target.matches("#unit-selector")) {
+//     selectedUnit = e.target.checked ? "F" : "C";
+//     updateUI();
+//   }
 // });
