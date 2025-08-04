@@ -6,13 +6,12 @@ const mainInfoContainer = document.querySelector(".main__info");
 const mainForecastContainer = document.querySelector(".main__forecast");
 const placesContainer = document.querySelector(".places__container");
 const geolocationButton = document.querySelector(".places__geolocation");
+
 let mainForecastCardContainer = document.querySelector(
   ".forecast__card--container"
 );
 const unitSelector = document.querySelector("#unit-selector");
 const today = new Date();
-
-console.log(today);
 
 let searchTerm;
 let currentWeather;
@@ -30,6 +29,15 @@ function convertTemp(tempF, selectedUnit) {
   }
   return tempF.toFixed(1); // °F
 }
+
+// Function to change selected classes
+const changeSelectedClasses = (e) => {
+  placesContainer.querySelectorAll(".place--selected").forEach((el) => {
+    el.classList.remove("place--selected");
+  });
+
+  e.target.classList.add("place--selected");
+};
 
 // function to convert date
 function formatDate(dateString) {
@@ -51,6 +59,7 @@ function updateUI() {
     timeZone: currentWeather.timezone,
   };
   let weatherCard = `
+  
   <p>${new Date().toLocaleString("en-GB", options)}</p>
     <div class="main__info--icon-container">
           <img
@@ -89,7 +98,7 @@ function updateUI() {
               ? `<p class="main__info--alert">Weather Alert: No alerts</p>`
               : `${currentWeather.alerts
                   .map((e) => {
-                    return `<p class="main__info--alert">Weather Alert: ${e} </p>`;
+                    return `<p class="main__info--alert">Weather Alert: ${e.event} </p>`;
                   })
                   .join(" ")}</p>`
           }  
@@ -156,8 +165,6 @@ if (navigator.geolocation) {
       lat = position.coords.latitude;
       lon = position.coords.longitude;
 
-      console.log(lat, lon);
-
       const res = await fetch(
         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
       );
@@ -165,7 +172,6 @@ if (navigator.geolocation) {
       geolocation = data;
       geolocationAddress = `${geolocation.address.suburb}, ${geolocation.address.city}, ${geolocation.address.country}`;
       geolocationButton.innerHTML = `📍 ${geolocationAddress}`;
-      console.log(geolocation);
     },
     (error) => {
       console.error("Error obtaining geolocation");
@@ -195,7 +201,7 @@ async function fetchData() {
 
 unitSelector.addEventListener("change", function (e) {
   selectedUnit = e.target.value;
-  console.log(selectedUnit);
+
   updateUI();
 });
 
@@ -212,6 +218,11 @@ form.addEventListener("submit", async function (e) {
       "afterend",
       `<p class="places__item">${currentWeather.resolvedAddress}</p>`
     );
+  console.log("this", e);
+
+  const allItems = document.querySelectorAll(".places__item");
+  const newItem = allItems[0];
+  changeSelectedClasses({ target: newItem });
 });
 
 placesContainer.addEventListener("click", (e) => {
@@ -224,8 +235,12 @@ placesContainer.addEventListener("click", (e) => {
     e.target.classList.contains("places__geolocation")
   ) {
     searchTerm = e.target.innerText;
+
+    changeSelectedClasses(e);
+
+    console.log(e.target);
+
     fetchData();
-    console.log(currentWeather);
   }
 });
 
