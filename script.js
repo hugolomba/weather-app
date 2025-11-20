@@ -204,28 +204,6 @@ async function fetchData() {
   }
 }
 
-// Event handlers
-
-// mainInfoContainer.addEventListener("click", (e) => {
-//   console.log("Clicked on main info container", e.target.id);
-//   unitSelector = document.querySelector("#unit-selector");
-//   if (e.target.id === "unit-selector") {
-//     selectedUnit = unitSelector.checked ? "F" : "C";
-
-//     console.log(unitSelector.checked);
-//     console.log(e.target.value);
-
-//     updateUI();
-//   }
-// });
-
-// mainInfoContainer.addEventListener("change", (e) => {
-//   if (e.target.matches("#unit-selector")) {
-//     selectedUnit = e.target.checked ? "F" : "C";
-//     updateUI();
-//   }
-// });
-
 unitSelector?.addEventListener("change", function (e) {
   selectedUnit = unitSelector.checked ? "F" : "C";
 
@@ -256,7 +234,6 @@ form.addEventListener("submit", async function (e) {
   weatherContainer.classList.remove("hidden");
   mainInfoContainer.classList.remove("hidden");
   mainForecastContainer.classList.remove("hidden");
-  sidebarContainer.classList.add("mobile--hidden");
 });
 
 placesContainer.addEventListener("click", (e) => {
@@ -286,18 +263,5 @@ placesContainer.addEventListener("click", (e) => {
     weatherContainer.classList.remove("hidden");
     mainInfoContainer.classList.remove("hidden");
     mainForecastContainer.classList.remove("hidden");
-    sidebarContainer.classList.add("mobile--hidden");
   }
 });
-
-// geolocationButton.addEventListener("click", () => {
-//   searchTerm = geolocationAddress;
-//   fetchData();
-// });
-
-// mainContainer.addEventListener("change", (e) => {
-//   if (e.target.matches("#unit-selector")) {
-//     selectedUnit = e.target.checked ? "F" : "C";
-//     updateUI();
-//   }
-// });
