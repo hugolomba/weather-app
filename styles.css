@@ -110,7 +110,7 @@ sup {
   align-items: center;
   height: 100%;
   padding: 1.2rem;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .places__item,
